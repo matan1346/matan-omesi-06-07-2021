@@ -1,0 +1,16 @@
+.data-grid{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  // border-top: 1px solid black;
+  // border-right: 1px solid black;
+}
+
+.data-grid > app-weather-degrees-view{
+  padding: 10px;
+  // border-left: 1px solid black;
+  // border-bottom: 1px solid black;
+
+  &:hover{
+    cursor: pointer;
+  }
+}

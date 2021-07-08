@@ -1,0 +1,56 @@
+<!-- {{selectedWeather | json}} -->
+
+
+
+<div class="container">
+
+  <mat-card>
+
+    <form [formGroup]="weatherForm" (ngSubmit)="submitForm()">
+
+      <!-- <label>City:</label>
+      <input type="text" mat-input formControlName="city" /> -->
+
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>City Search</mat-label>
+        <input matInput formControlName="city" type="search" placeholder="Ex. Ramat Gan" value="Tel Aviv">
+      </mat-form-field>
+
+      <button type="submit" mat-button [disabled]="weatherForm.invalid">Search</button>
+    </form>
+  </mat-card>
+
+
+  <mat-card  *ngIf="!selectedWeather">NO DATA</mat-card>
+  <mat-card class="data-container" *ngIf="selectedWeather">
+
+
+    <div class="data-bar">
+      <div class="city-info">
+        <div class="city-logo" style="background-image: url(https://www.accuweather.com/images/weathericons/{{selectedWeather.WeatherData.CurrentConditions[0].WeatherIcon}}.svg);background-size: 100%;background-position: center;"></div>
+        <div>{{selectedWeather.Name}}</div>
+        <div>{{selectedWeather.WeatherData.CurrentConditions[0].Temperature.Metric.Value + '`' +  selectedWeather.WeatherData.CurrentConditions[0].Temperature.Metric.Unit}}</div>
+      </div>
+      <div class="favorite-actions">
+        <div *ngIf="isFavorite == true"><mat-icon>favorite</mat-icon></div>
+        <div *ngIf="isFavorite == true"><button mat-button (click)="RemoveFavorite()">Remove Favorites</button></div>
+        <div *ngIf="isFavorite == false"><mat-icon>favorite_border</mat-icon></div>
+        <div *ngIf="isFavorite == false"><button mat-button  (click)="AddFavorite()">Add to Favorites</button></div>
+      </div>
+    </div>
+
+
+    <div class="desc">{{selectedWeather.WeatherData.CurrentConditions[0].WeatherText}}</div>
+
+
+    <div class="data-grid">
+
+
+      <app-weather-degrees-view *ngFor="let item of specificDetails" [weatherDetails]=item showDescription=false></app-weather-degrees-view>
+
+
+    </div>
+
+  </mat-card>
+
+</div>
