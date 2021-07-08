@@ -618,7 +618,7 @@ class WeatherService {
         this.httpClient = httpClient;
         this.toastr = toastr;
         this.WEATHER_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu'];
-        this.baseURL = 'http://dataservice.accuweather.com/';
+        this.baseURL = 'https://dataservice.accuweather.com/';
         this.language = 'en-us';
         this.weatherCache = new rxjs__WEBPACK_IMPORTED_MODULE_1__.BehaviorSubject([]);
     }
