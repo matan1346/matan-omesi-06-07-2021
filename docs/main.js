@@ -848,25 +848,24 @@ class WeatherDetailsComponent {
         this.specificDetails = [];
         const navigation = this.router.getCurrentNavigation();
         const state = navigation.extras.state;
-        this.selectedCity$.next(state === null || state === void 0 ? void 0 : state.name);
+        const city = state && state.name ? state.name : 'Tel Aviv';
+        this.selectedCity$.next(city);
     }
     ngOnInit() {
         return (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
             this.favorites = this.store.select('favorites');
-            this.subscriptions.push(this.store.select('favorites').subscribe(x => {
-                this.isFavorite = x.findIndex(f => { var _a; return f.Name.toLowerCase() == ((_a = this.selectedWeather) === null || _a === void 0 ? void 0 : _a.Name.toLowerCase()); }) >= 0;
-            }));
-            this.subscriptions.push(this.selectedCity$.subscribe((city) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
+            this.selectedCity$.subscribe((city) => (0,tslib__WEBPACK_IMPORTED_MODULE_5__.__awaiter)(this, void 0, void 0, function* () {
                 this.selectedWeather = yield this.weatherService.getWeatherOfCity(city);
                 if (this.selectedWeather) {
                     this.specificDetails = this.selectedWeather.WeatherData.WeeklyDailyForecast.DailyForecasts.map((item, i) => {
                         let temperature = item.Temperature.Minimum.Value + '`' + item.Temperature.Minimum.Unit;
                         return { title: this.weatherService.WEATHER_DAYS[i], degrees: temperature, description: null };
                     });
+                    this.store.select('favorites').subscribe(x => {
+                        this.isFavorite = x.findIndex(f => { var _a; return f.Name.toLowerCase() == ((_a = this.selectedWeather) === null || _a === void 0 ? void 0 : _a.Name.toLowerCase()); }) >= 0;
+                    });
                 }
-            })));
-            if (this.selectedWeather == null)
-                this.selectedCity$.next('Tel Aviv');
+            }));
             this.weatherForm = this.formBuilder.group({
                 city: [this.selectedCity$.value, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.Validators.required]
             });
