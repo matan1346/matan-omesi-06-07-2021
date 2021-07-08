@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 export class WeatherService {
   WEATHER_DAYS = ['Sun','Mon','Tue','Wed','Thu'];
 
-  private baseURL = 'http://dataservice.accuweather.com/';
+  private baseURL = 'https://dataservice.accuweather.com/';
   private language = 'en-us';
   private weatherCache: BehaviorSubject<Weather[]> = new BehaviorSubject<Weather[]>([]);
 
