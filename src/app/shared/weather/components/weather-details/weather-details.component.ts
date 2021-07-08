@@ -24,14 +24,11 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   selectedCity$ = new BehaviorSubject<string>(null);
   selectedWeather: Weather = null;
 
-  subscription: Subscription;
-
-
+  subscriptions: Subscription[] = [];
   favorites: Observable<Weather[]> = null;
   isFavorite: boolean;
 
   specificDetails: WeatherDetails[] = [];
-
 
    constructor(
     private router: Router,
@@ -45,39 +42,17 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
 
 
     this.selectedCity$.next(state?.name);
-
-    // if(city){
-
-
-    //   let weatherData = this.weatherService.getWeatherOfCity(city);
-    //   this.selectedWeather$.next(weatherData);
-    //   this.inFavoriteList = true;
-    // }
    }
 
   async ngOnInit(): Promise<void> {
-    //215854
-    //let result = this.weatherService.getAuthocomplete('tel aviv');
-
-    //let result = this.weatherService.getCurrentConditions('215854');
-    //let result = this.weatherService.getFiveDaysDailyForecasts('215854');
-
-    //getFiveDaysDailyForecasts
-    //console.log('query sent');
-
     this.favorites = this.store.select('favorites');
 
 
-    this.store.select('favorites').subscribe(x => {
+    this.subscriptions.push(this.store.select('favorites').subscribe(x => {
       this.isFavorite = x.findIndex(f => f.Name.toLowerCase() == this.selectedWeather?.Name.toLowerCase()) >= 0;
-    });
+    }));
 
-    // // check for favorite
-    // this.inFavoriteListIndex = this.favorites.pipe(
-    //   map(favors => favors.findIndex(x => x.Name.toLowerCase() == this.selectedWeather?.Name.toLowerCase())));
-
-
-    this.subscription = this.selectedCity$.subscribe(async city => {
+    this.subscriptions.push(this.selectedCity$.subscribe(async city => {
       this.selectedWeather =  await this.weatherService.getWeatherOfCity(city);
 
       if(this.selectedWeather){
@@ -86,10 +61,8 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
           return {title: this.weatherService.WEATHER_DAYS[i], degrees: temperature, description: null }
         });
 
-
-
       }
-    });
+    }));
 
     if(this.selectedWeather == null)
       this.selectedCity$.next('Tel Aviv');
@@ -100,18 +73,11 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(){
-    this.subscription.unsubscribe();
+    this.subscriptions.map( x => x.unsubscribe());
   }
-
-
-  OnClickWeather(event){
-    console.log(event);
-  }
-
 
   async submitForm(){
     this.selectedCity$.next(this.weatherForm.value.city);
-    //this.selectedWeather = await this.weatherService.getWeatherOfCity(this.weatherForm.value.city);
   }
 
 

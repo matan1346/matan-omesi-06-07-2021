@@ -11,7 +11,6 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [],
   imports: [
     CommonModule,
-    // MaterialModule,
     HttpClientModule
 
   ]

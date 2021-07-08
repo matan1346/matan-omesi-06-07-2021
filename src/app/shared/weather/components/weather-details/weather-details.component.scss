@@ -7,12 +7,9 @@
   grid-row-gap: 20px;
 }
 
-
 .data-container{
   display: grid;
   grid-template-rows: repeat(3, 1fr);
-  // border-top: 1px solid black;
-  // border-right: 1px solid black;
   height: 400px;
 
   .data-bar{
@@ -31,7 +28,6 @@
         border: 1px solid black;
       }
     }
-
 
     .favorite-actions{
       display: grid;
@@ -53,19 +49,11 @@
 
 }
 
-
-
-
-
 .data-grid{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  // border-top: 1px solid black;
-  // border-right: 1px solid black;
 }
 
 .data-grid > app-weather-degrees-view{
   padding: 10px;
-  // border-left: 1px solid black;
-  // border-bottom: 1px solid black;
 }
