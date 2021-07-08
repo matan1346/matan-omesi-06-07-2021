@@ -1,16 +1,9 @@
-<!-- {{selectedWeather | json}} -->
-
-
 
 <div class="container">
 
   <mat-card>
 
     <form [formGroup]="weatherForm" (ngSubmit)="submitForm()">
-
-      <!-- <label>City:</label>
-      <input type="text" mat-input formControlName="city" /> -->
-
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>City Search</mat-label>
         <input matInput formControlName="city" type="search" placeholder="Ex. Ramat Gan" value="Tel Aviv">

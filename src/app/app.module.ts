@@ -12,6 +12,7 @@ import { CoreModule } from './core/core.module';
 
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './core/reducers/favorite.reducer';
+import { MaterialModule } from './core/modules/material/material.module';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { reducer } from './core/reducers/favorite.reducer';
     AppRoutingModule,
     CoreModule,
     SharedModule,
+    MaterialModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       timeOut: 3500,

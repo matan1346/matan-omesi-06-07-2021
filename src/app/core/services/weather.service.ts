@@ -6,7 +6,6 @@ import { ConditionsResult } from '../models/conditions.model';
 import { CityResult } from '../models/city.result.model';
 import { Weather } from '../models/weather.model';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { nullSafeIsEquivalent } from '@angular/compiler/src/output/output_ast';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({

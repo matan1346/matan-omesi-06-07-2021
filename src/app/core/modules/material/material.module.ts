@@ -48,7 +48,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule],
+    CommonModule
+  ],
   exports: [
     A11yModule,
     ClipboardModule,

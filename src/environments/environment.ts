@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  weatherAPI: 'MA9DsNiJL2f8D3s2YCpn8SeGQE7tsJSj'
+  weatherAPI: 'sNegvcZtoUOI1LyOWnJm0a1iYrpe9NyW'
 };
 
 /*

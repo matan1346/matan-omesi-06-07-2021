@@ -77,7 +77,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "herolo-assignment:build:production"
+              "browserTarget": "herolo-assignment:build:production",
+              "proxyConfig": "src/proxy.cong.json"
             }
           }
         },
