@@ -10,6 +10,7 @@ import { WeatherDetails } from 'src/app/core/models/weather.details.model';
 import { Weather } from 'src/app/core/models/weather.model';
 import { WeatherService } from 'src/app/core/services/weather.service';
 import { ToastrService } from 'ngx-toastr';
+import { ElementSchemaRegistry } from '@angular/compiler';
 
 @Component({
   selector: 'app-weather-details',
@@ -39,20 +40,14 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
 
     const navigation = this.router.getCurrentNavigation();
     const state = navigation.extras.state as {name: string};
-
-
-    this.selectedCity$.next(state?.name);
+    const city = state && state.name ? state.name: 'Tel Aviv';
+    this.selectedCity$.next(city);
    }
 
   async ngOnInit(): Promise<void> {
     this.favorites = this.store.select('favorites');
 
-
-    this.subscriptions.push(this.store.select('favorites').subscribe(x => {
-      this.isFavorite = x.findIndex(f => f.Name.toLowerCase() == this.selectedWeather?.Name.toLowerCase()) >= 0;
-    }));
-
-    this.subscriptions.push(this.selectedCity$.subscribe(async city => {
+    this.selectedCity$.subscribe(async city => {
       this.selectedWeather =  await this.weatherService.getWeatherOfCity(city);
 
       if(this.selectedWeather){
@@ -61,11 +56,12 @@ export class WeatherDetailsComponent implements OnInit, OnDestroy {
           return {title: this.weatherService.WEATHER_DAYS[i], degrees: temperature, description: null }
         });
 
-      }
-    }));
+        this.store.select('favorites').subscribe(x => {
+          this.isFavorite = x.findIndex(f => f.Name.toLowerCase() == this.selectedWeather?.Name.toLowerCase()) >= 0;
+        });
 
-    if(this.selectedWeather == null)
-      this.selectedCity$.next('Tel Aviv');
+      }
+    });
 
     this.weatherForm = this.formBuilder.group({
       city: [this.selectedCity$.value, Validators.required]
