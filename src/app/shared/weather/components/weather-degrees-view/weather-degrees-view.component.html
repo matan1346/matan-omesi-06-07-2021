@@ -1,0 +1,5 @@
+<mat-card class="grid-container" (click)="OnClick()">
+  <div class="title">{{weatherDetails.title}}</div>
+  <div class="degrees">{{weatherDetails.degrees}}</div>
+  <div *ngIf="showDescription == true" class="description">{{weatherDetails.description}}</div>
+</mat-card>

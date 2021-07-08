@@ -1,0 +1,32 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-gap: 5px;
+  border: 1px olid black;
+  background-color: #e4eff8;
+  padding: 30px;
+
+  &:hover{
+    background-color: rgb(195, 223, 255);
+  }
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 20px 0;
+}
+
+
+.grid-container .title{
+  font-size: 20pt;;
+}
+
+.grid-container .degrees{
+  padding: 5px 0 20px;
+  font-size: 15pt;;
+}
+
+.grid-container .description{
+
+  font-size: 15pt;;
+}

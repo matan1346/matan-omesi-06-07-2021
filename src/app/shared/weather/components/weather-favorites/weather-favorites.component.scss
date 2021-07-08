@@ -1,0 +1,12 @@
+.data-grid{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.data-grid > app-weather-degrees-view{
+  padding: 10px;
+
+  &:hover{
+    cursor: pointer;
+  }
+}
