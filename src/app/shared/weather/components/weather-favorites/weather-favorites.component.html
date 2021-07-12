@@ -1,3 +1,4 @@
 <div class="data-grid">
   <app-weather-degrees-view *ngFor="let item of favorites" [weatherDetails]=item   (onClickItem)="OnClickWeather($event)"></app-weather-degrees-view>
 </div>
+<mat-card *ngIf="favorites.length == 0">NO FAVORITES</mat-card>

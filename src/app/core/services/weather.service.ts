@@ -3,36 +3,25 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { WeeklyForecast } from '../models/daily.forecast.model';
 import { ConditionsResult } from '../models/conditions.model';
-import { CityResult } from '../models/city.result.model';
+import { CityGroup, CityResult } from '../models/city.result.model';
 import { Weather } from '../models/weather.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { WeatherContract } from '../contract/weather.contract';
 
 @Injectable({
   providedIn: 'root'
 })
-export class WeatherService {
-  WEATHER_DAYS = ['Sun','Mon','Tue','Wed','Thu'];
+export class WeatherService extends WeatherContract {
 
-  private baseURL = 'https://dataservice.accuweather.com/';
-  private language = 'en-us';
-  private weatherCache: BehaviorSubject<Weather[]> = new BehaviorSubject<Weather[]>([]);
-
-  constructor(private httpClient: HttpClient, private toastr: ToastrService) {}
-
-
-  getAllCache() : Observable<Weather[]> {
-    return this.weatherCache.asObservable();
+  constructor(private httpClient: HttpClient, private toastr: ToastrService) {
+    super();
   }
 
+  
+  async getWeatherOfCity(country: string,city: string, useCache = true): Promise<Weather>{
 
-  private getWeatherIndexFromCache(city: string){
-    return this.weatherCache.value.findIndex(x => x.Name.toLowerCase() == city.toLowerCase());
-  }
-
-  async getWeatherOfCity(city: string, useCache = true){
-
-    if(!city || city.length == 0)
+    if(!country || country.length == 0 || !city || city.length == 0)
       return null;
 
     let index = this.getWeatherIndexFromCache(city);
@@ -42,17 +31,13 @@ export class WeatherService {
     let weather: Weather = null;
 
     try{
-      // call api
-      let searchRes = await this.getAuthocomplete(city);
-      if(searchRes.length == 0)
-        return null;
+      let selectedCityID = this.getSelectedCityID(country, city);
 
-      let cityDetails = searchRes[0];
-      let conditions = await this.getCurrentConditions(cityDetails.Key);
-      let forecasts = await this.getFiveDaysDailyForecasts(cityDetails.Key);
+      let conditions = await this.getCurrentConditions(selectedCityID);
+      let forecasts = await this.getFiveDaysDailyForecasts(selectedCityID);
 
 
-      weather = {ID: cityDetails.Key,Name: cityDetails.LocalizedName, WeatherData: {
+      weather = {ID: selectedCityID,Country: country,Name: city, WeatherData: {
         CurrentConditions: conditions, WeeklyDailyForecast:forecasts
       }};
 
@@ -65,6 +50,8 @@ export class WeatherService {
         currentWeatherCache.push(weather);
 
       this.weatherCache.next(currentWeatherCache);
+      console.log('weather data:');
+      console.log(weather);
       this.toastr.success(`Weather data of ${city} is beeing loaded into the screen`);
     }
     catch(e){
@@ -75,30 +62,32 @@ export class WeatherService {
   }
 
 
-  private async getAuthocomplete(city: string) : Promise<CityResult[]>{
+  public async AutoCompleteCities(city: string) : Promise<void>{
 
     if(!city || city.length == 0)
-      return [];
+      return;
 
     let params = new HttpParams();
 
     params = params.append('apikey', environment.weatherAPI);
     params = params.append('q',city);
     params = params.append('language', this.language);
-    let res:any = [];
+    let res:any[] = [];
 
     try{
-      res = await this.httpClient.get<CityResult>(this.baseURL +'locations/v1/cities/autocomplete', {params: params} ).toPromise();
+      res = await this.httpClient.get<any[]>(this.baseURL +'locations/v1/cities/autocomplete', {params: params} ).toPromise();
+      console.log('success');
+      console.log(res)
+      this.setGroupCities(res);
       if(res.length == 0)
-      this.toastr.info(`There is no city named ${city}`);
+        this.toastr.info(`There is no results for the query ${city}`);
     }
     catch(err){
       this.toastr.error(`Could not get current auto complete of the city: ${city}`);
     }
-    return res;
   }
 
-  private async getCurrentConditions(locationKey: string) : Promise<ConditionsResult[]>{
+  protected async getCurrentConditions(locationKey: string) : Promise<ConditionsResult[]>{
 
     let params = new HttpParams();
 
@@ -117,13 +106,13 @@ export class WeatherService {
   }
 
 
-  private async getFiveDaysDailyForecasts(locationKey: string) : Promise<WeeklyForecast>{
+  protected async getFiveDaysDailyForecasts(locationKey: string) : Promise<WeeklyForecast>{
 
     let params = new HttpParams();
 
     params = params.append('apikey', environment.weatherAPI);
     params = params.append('details', 'false');
-    params = params.append('metric', 'false');
+    params = params.append('metric', 'true');
     params = params.append('language', this.language);
     let res:any = null;
 

@@ -1,10 +1,12 @@
-
-
-interface LocalizedID{
+export interface LocalizedID{
   ID: string;
   LocalizedName: string;
 }
 
+export interface CityGroup{
+  country: string;
+  cities: LocalizedID[];
+}
 
 export interface CityResult{
   AdministrativeArea: LocalizedID;

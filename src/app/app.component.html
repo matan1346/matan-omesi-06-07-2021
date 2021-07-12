@@ -8,9 +8,19 @@
       <a  mat-button [routerLink]="['favorites']" routerLinkActive="router-link-active"> Favorites </a>
 
     </div>
+    <div class="menu-right">
+      <div class="dark-light-toggle">
+        <mat-icon class="icons">brightness_5</mat-icon>
+        <mat-slide-toggle [formControl]="toggleControl"></mat-slide-toggle>
+        <mat-icon class="icons">bedtime</mat-icon>
+      </div>
+      <div class="temperature-toggle">
+        <div class="icons">°C</div>
+        <mat-slide-toggle [checked]="isChecked" (change)="ToggleTemperature()"></mat-slide-toggle>
+        <div class="icons">°F</div>
+      </div>
+    </div>
   </mat-toolbar>
-
-
-<div class="wrapper">
+<mat-card class="wrapper">
 <router-outlet></router-outlet>
-</div>
+</mat-card>

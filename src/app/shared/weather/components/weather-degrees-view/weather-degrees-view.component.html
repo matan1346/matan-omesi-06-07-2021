@@ -1,5 +1,6 @@
-<mat-card class="grid-container" (click)="OnClick()">
+<mat-card class="grid-container" (click)="OnClick()" (mouseenter)="showDelete=true" (mouseleave)="showDelete=false">
+  <button *ngIf="showDelete" (click)="RemoveFavorite()" mat-button><mat-icon>delete</mat-icon> Remove from Favorites</button>
   <div class="title">{{weatherDetails.title}}</div>
-  <div class="degrees">{{weatherDetails.degrees}}</div>
+  <div class="degrees">{{weatherDetails.degrees | weatherUnit:unitDisplay}}</div>
   <div *ngIf="showDescription == true" class="description">{{weatherDetails.description}}</div>
 </mat-card>

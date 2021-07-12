@@ -1,16 +1,13 @@
-
 .container{
   padding: 10px;
   display: grid;
   grid-template-rows: 1fr 5fr;
-  width: 800px;
   grid-row-gap: 20px;
 }
 
 .data-container{
   display: grid;
   grid-template-rows: repeat(3, 1fr);
-  height: 400px;
 
   .data-bar{
     display: flex;
@@ -18,14 +15,14 @@
 
     .city-info{
       display: grid;
-      grid-template-columns: repeat(2, 70px);
-      grid-row-gap: 20px;
+      grid-template-columns: repeat(2, 100px);
+      grid-row-gap: 50px;
       grid-column-gap: 10px;
       height: 1px;
+      font-size: 20pt;
 
       .city-logo{
         grid-row-end: span 2;
-        border: 1px solid black;
       }
     }
 
@@ -43,10 +40,9 @@
   .desc{
     text-align: center;
     font-family: "Comic Sans MS", "Comic Sans", cursive;
-    font-size: 25pt;
+    font-size: 45pt;
     font-weight: bold;
   }
-
 }
 
 .data-grid{

@@ -1,11 +1,21 @@
 <div class="container">
   <mat-card>
-    <form [formGroup]="weatherForm" (ngSubmit)="submitForm()">
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>City Search</mat-label>
-        <input matInput formControlName="city" type="search" placeholder="Ex. Ramat Gan" value="Tel Aviv">
+    <form [formGroup]="weatherForm">
+      <mat-form-field appearance="fill">
+        <mat-label>States Group</mat-label>
+        <input type="text"
+               matInput
+               formControlName="stateGroup"
+               required
+               [matAutocomplete]="autoGroup">
+          <mat-autocomplete #autoGroup="matAutocomplete" (optionSelected)="SelectOption($event)">
+            <mat-optgroup *ngFor="let group of stateGroupOptions | async" [label]="group.country">
+              <mat-option *ngFor="let city of group.cities" [value]="city.LocalizedName">
+                {{city.LocalizedName}}
+              </mat-option>
+          </mat-optgroup>
+        </mat-autocomplete>
       </mat-form-field>
-      <button type="submit" mat-button [disabled]="weatherForm.invalid">Search</button>
     </form>
   </mat-card>
   <mat-card  *ngIf="!selectedWeather">NO DATA</mat-card>
@@ -14,7 +24,9 @@
       <div class="city-info">
         <div class="city-logo" style="background-image: url(https://www.accuweather.com/images/weathericons/{{selectedWeather.WeatherData.CurrentConditions[0].WeatherIcon}}.svg);background-size: 100%;background-position: center;"></div>
         <div>{{selectedWeather.Name}}</div>
-        <div>{{selectedWeather.WeatherData.CurrentConditions[0].Temperature.Metric.Value + '`' +  selectedWeather.WeatherData.CurrentConditions[0].Temperature.Metric.Unit}}</div>
+        <div>
+          {{ selectedWeather.WeatherData.CurrentConditions[0].Temperature.Metric| weatherUnit:unitDisplay}}
+        </div>
       </div>
       <div class="favorite-actions">
         <div *ngIf="isFavorite == true"><mat-icon>favorite</mat-icon></div>

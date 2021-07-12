@@ -6,11 +6,11 @@ import { WeatherFavoritesComponent } from './components/weather-favorites/weathe
 import { MaterialModule } from 'src/app/core/modules/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WeatherService } from 'src/app/core/services/weather.service';
-
+import { WeatherUnitPipe } from 'src/app/core/pipes/weather-unit.pipe';
 
 
 @NgModule({
-  declarations: [WeatherDegreesViewComponent, WeatherDetailsComponent, WeatherFavoritesComponent],
+  declarations: [WeatherDegreesViewComponent, WeatherDetailsComponent, WeatherFavoritesComponent, WeatherUnitPipe],
   imports: [
     CommonModule,
     MaterialModule,

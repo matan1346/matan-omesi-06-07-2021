@@ -1,5 +1,3 @@
-
-
 export interface TemperatureUnit {
   Unit: string;
   UnitType: number;
@@ -9,7 +7,7 @@ export interface TemperatureUnit {
 
 
 export interface ConditionsResult{
-  EpocTime: number;
+  EpochTime: number;
   HasPrecipitation: boolean;
   IsDayTime: boolean;
   Link: string;

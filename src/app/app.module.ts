@@ -13,6 +13,10 @@ import { CoreModule } from './core/core.module';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './core/reducers/favorite.reducer';
 import { MaterialModule } from './core/modules/material/material.module';
+import { WeatherContract } from './core/contract/weather.contract';
+import { WeatherTestService } from './core/services/weather.test.service';
+import { WeatherService } from './core/services/weather.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -26,6 +30,7 @@ import { MaterialModule } from './core/modules/material/material.module';
     SharedModule,
     MaterialModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
     ToastrModule.forRoot({
       timeOut: 3500,
       positionClass: 'toast-bottom-right',
@@ -37,7 +42,9 @@ import { MaterialModule } from './core/modules/material/material.module';
       favorites: reducer
     })
   ],
-  providers: [],
+  providers: [
+    {provide: WeatherContract, useClass: WeatherService}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
